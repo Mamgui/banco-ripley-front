@@ -1,5 +1,5 @@
 import './App.css';
-import MainContainer from "./containers/MainContainer";
+import MainContainer from "./containers/MainContainer/MainContainer";
 import {Provider} from "react-redux";
 import store from "./store";
 
