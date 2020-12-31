@@ -1,11 +1,16 @@
 import Login from "./Login";
 import {fireEvent, render, screen} from "@testing-library/react";
+import {BrowserRouter} from "react-router-dom";
 
 const mockLogin = jest.fn()
 
 const defaultProps = {login: mockLogin}
 
-const component = <Login {...defaultProps}/>
+const component = (
+    <BrowserRouter>
+        <Login {...defaultProps}/>
+    </BrowserRouter>
+)
 
 describe('login tests', () => {
     test("render username and password labels", () => {
