@@ -1,21 +1,27 @@
-import {login} from "../../services/authentication/authentication";
+import {login, recoverPassword, updatePassword} from "../../services/authentication/authentication";
 
 const actions = {
-    START: 'START_LOGIN_REQUEST',
-    FINISH: 'FINISH_LOGIN_REQUEST',
-    ERROR: 'ERROR_LOGIN_REQUEST',
-    RESTART: 'RESTART_LOGIN_REQUEST',
+    loginStart: 'authentication/login/start',
+    loginFinish: 'authentication/login/finish',
+    loginError: 'authentication/login/error',
+    recoverPasswordStart: 'authentication/recoverPassword/start',
+    recoverPasswordFinish: 'authentication/recoverPassword/finish',
+    recoverPasswordError: 'authentication/recoverPassword/error',
+    updatePasswordStart: 'authentication/updatePassword/start',
+    updatePasswordFinish: 'authentication/updatePassword/finish',
+    updatePasswordError: 'authentication/updatePassword/error',
+    restart: 'authentication/restart',
 }
 
 const loginThunk = (dispatch, username, password) => {
-    dispatch({type: actions.START})
+    dispatch({type: actions.loginStart})
 
     function handleSuccessfully() {
-        dispatch({type: actions.FINISH})
+        dispatch({type: actions.loginFinish})
     }
 
     function handlesError() {
-        dispatch({type: actions.ERROR})
+        dispatch({type: actions.loginError})
     }
 
     return login(username, password)
@@ -24,30 +30,100 @@ const loginThunk = (dispatch, username, password) => {
 }
 
 const logoutThunk = dispatch => {
-    dispatch({type: actions.RESTART})
+    dispatch({type: actions.restart})
 }
 
-const INITIAL_STATE = {
+const recoverPasswordThunk = (dispatch, username) => {
+    dispatch({type: actions.recoverPasswordStart})
+
+    function handleSuccessfully(response) {
+        dispatch({type: actions.recoverPasswordFinish, token: response.token})
+    }
+
+    function handlesError() {
+        dispatch({type: actions.recoverPasswordError})
+    }
+
+    return recoverPassword(username)
+        .then(handleSuccessfully)
+        .catch(handlesError)
+}
+
+const updatePasswordThunk = (dispatch, token, newPassword) => {
+    dispatch({type: actions.updatePasswordStart})
+
+    function handleSuccessfully() {
+        dispatch({type: actions.updatePasswordFinish})
+    }
+
+    function handlesError() {
+        dispatch({type: actions.updatePasswordError})
+    }
+
+    return updatePassword(token, newPassword)
+        .then(handleSuccessfully)
+        .catch(handlesError)
+}
+
+const restartThunk = dispatch => {
+    dispatch({type: actions.restart})
+}
+
+const initialState = {
     isLoginLoading: false,
     isLoggedIn: false,
+    isRecoverPasswordLoading: false,
+    token: null,
+    isUpdatePasswordLoading: false,
+    isPasswordUpdated: false,
 }
 
-const reducer = (state = INITIAL_STATE, action = {}) => {
+const reducer = (state = initialState, action = {}) => {
     switch (action.type) {
-        case actions.START:
+        case actions.loginStart:
             return {
-                ...INITIAL_STATE,
-                isLoginLoading: true
+                ...initialState,
+                isLoginLoading: true,
+                isLoggedIn: false,
             }
-        case actions.FINISH: {
+        case actions.loginFinish: {
             return {
-                ...INITIAL_STATE,
+                ...initialState,
+                isLoginLoading: false,
                 isLoggedIn: true,
             }
         }
-        case actions.ERROR:
-        case actions.RESTART:
-            return INITIAL_STATE
+        case actions.recoverPasswordStart: {
+            return {
+                ...initialState,
+                isRecoverPasswordLoading: true
+            }
+        }
+        case actions.recoverPasswordFinish: {
+            return {
+                ...initialState,
+                token: action.token,
+                isRecoverPasswordLoading: false
+            }
+        }
+        case actions.updatePasswordStart:
+            return {
+                ...initialState,
+                isUpdatePasswordLoading: true,
+                isPasswordUpdated: false
+            }
+        case actions.updatePasswordFinish: {
+            return {
+                ...initialState,
+                isUpdatePasswordLoading: false,
+                isPasswordUpdated: true,
+            }
+        }
+        case actions.loginError:
+        case actions.recoverPasswordError:
+        case actions.updatePasswordError:
+        case actions.restart:
+            return initialState
         default:
             return state
     }
@@ -55,5 +131,18 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
 
 const isLoginLoading = state => state.authentication.isLoginLoading
 const isLoggedIn = state => state.authentication.isLoggedIn
+const getToken = state => state.authentication.token
+const isPasswordUpdated = state => state.authentication.isPasswordUpdated
 
-export {loginThunk, logoutThunk, reducer, isLoginLoading, isLoggedIn}
+export {
+    loginThunk,
+    logoutThunk,
+    recoverPasswordThunk,
+    updatePasswordThunk,
+    restartThunk,
+    reducer,
+    isLoginLoading,
+    isLoggedIn,
+    getToken,
+    isPasswordUpdated
+}

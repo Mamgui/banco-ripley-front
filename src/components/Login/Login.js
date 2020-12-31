@@ -1,5 +1,11 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
+
+const userNameLabel = 'Nombre de usuario'
+const passwordLabel = 'Contraseña'
+const acceptButton = 'Aceptar'
+const recoverPasswordAnchor = 'Recuperar contraseña'
 
 function Login({login}) {
     const [username, setUsername] = useState("")
@@ -17,17 +23,20 @@ function Login({login}) {
     }
 
     return (
-        <form>
-            <label>Nombre de usuario
-                <input type="text" name="username" value={username}
-                       onChange={(event) => handleOnChange(event, setUsername)}/>
-            </label>
-            <label>Contraseña
-                <input type="password" name="password" value={password}
-                       onChange={(event) => handleOnChange(event, setPassword)}/>
-            </label>
-            <input type="submit" value="Aceptar" onClick={handleSubmit}/>
-        </form>
+        <div className="login-container">
+            <form>
+                <label>{userNameLabel}
+                    <input type="text" name="username" value={username}
+                           onChange={(event) => handleOnChange(event, setUsername)}/>
+                </label>
+                <label>{passwordLabel}
+                    <input type="password" name="password" value={password}
+                           onChange={(event) => handleOnChange(event, setPassword)}/>
+                </label>
+                <input type="submit" value={acceptButton} onClick={handleSubmit}/>
+            </form>
+            <Link to="/recover-password">{recoverPasswordAnchor}</Link>
+        </div>
     );
 }
 
