@@ -1,4 +1,4 @@
-# banco-ripley-front
+# Project: banco-ripley-front
 Challenge to apply as a Senior Full Stack in Banco Ripley
 
 Problem to solve: 
@@ -30,3 +30,12 @@ conocidas de desarrollo y despliegue continuos.
         # npm -v
         6.14.8`
 ```
+
+# Commands
+
+### Locally
+Needs to have Node.js installed
+* The first time need to install dependencies: `npm install`
+* To run the project: `npm start`
+* To run the tests: `npm test`
+* To build the project: `npm run build`
