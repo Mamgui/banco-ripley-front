@@ -1,9 +1,15 @@
 import PropTypes from "prop-types";
+import React from "react";
+import './Logout.scss'
 
 const logoutButtonMessage = "Cerrar sesión"
 
 function Logout({logout}) {
-    return (<button onClick={() => logout()}>{logoutButtonMessage}</button>);
+    return (
+        <div className="logout-container">
+            <button onClick={() => logout()}>{logoutButtonMessage}</button>
+        </div>
+    );
 }
 
 Logout.propTypes = {

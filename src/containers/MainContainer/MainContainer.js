@@ -1,9 +1,8 @@
 import {connect} from 'react-redux'
 import Main from "../../components/Main/Main";
-import {isLoggedIn, isLoginLoading} from "../../modules/authentication/authentication";
+import {isLoggedIn} from "../../modules/authentication/authentication";
 
 const mapStateToProps = state => ({
-        isLoginLoading: isLoginLoading(state),
         isLoggedIn: isLoggedIn(state)
     }
 )

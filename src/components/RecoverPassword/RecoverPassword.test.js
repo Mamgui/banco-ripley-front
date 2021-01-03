@@ -4,8 +4,17 @@ import {BrowserRouter} from "react-router-dom";
 
 const mockRecoverPassword = jest.fn()
 const mockUpdatePassword = jest.fn()
+const mockRestart = jest.fn()
 
-const defaultProps = {token: null, recoverPassword: mockRecoverPassword, updatePassword: mockUpdatePassword}
+const defaultProps = {
+    isRecoverPasswordLoading: false,
+    token: null,
+    isUpdatePasswordLoading: false,
+    isPasswordUpdated: false,
+    recoverPassword: mockRecoverPassword,
+    updatePassword: mockUpdatePassword,
+    restart: mockRestart,
+}
 
 const component = (
     <BrowserRouter>
@@ -19,7 +28,7 @@ const componentWithToken = (
 )
 
 describe('recover password tests', () => {
-    test("render go back anchor", () => {
+    test("render go back anchor when recover password and update password are not loading", () => {
         render(component)
 
         const goBackAnchor = screen.getByText("Volver atrás")
@@ -27,7 +36,17 @@ describe('recover password tests', () => {
         expect(goBackAnchor).toBeDefined()
     })
 
-    test("render username label for recover password when token is null", () => {
+    test("call restart when go back anchor is clicked", () => {
+        render(component)
+
+        const goBackAnchor = screen.getByText("Volver atrás")
+        fireEvent.click(goBackAnchor)
+
+        expect(goBackAnchor).toBeDefined()
+        expect(mockRestart).toHaveBeenCalledTimes(1)
+    })
+
+    test("render username label for recover password when token is null, recover password and update password are not loading", () => {
         render(component)
 
         const usernameLabel = screen.getByText("Nombre de usuario")
@@ -35,7 +54,7 @@ describe('recover password tests', () => {
         expect(usernameLabel).toBeDefined()
     })
 
-    test("render recover password button when token is null", () => {
+    test("render recover password button when token is null, recover password and update password are not loading", () => {
         render(component)
 
         const recoverPasswordButton = screen.getByText("Aceptar")
@@ -55,7 +74,7 @@ describe('recover password tests', () => {
         expect(mockRecoverPassword).toHaveBeenNthCalledWith(1, "Ariel")
     })
 
-    test("render new password label for recover password when token is defined", () => {
+    test("render new password label for recover password when token is defined, recover password and update password are not loading", () => {
         render(componentWithToken)
 
         const newPasswordLabel = screen.getByText("Nueva contraseña")
@@ -63,7 +82,7 @@ describe('recover password tests', () => {
         expect(newPasswordLabel).toBeDefined()
     })
 
-    test("render update password button when token is defined", () => {
+    test("render update password button when token is defined, recover password and update password are not loading", () => {
         render(componentWithToken)
 
         const updatePasswordButton = screen.getByText("Cambiar contraseña")
@@ -81,5 +100,51 @@ describe('recover password tests', () => {
 
         expect(mockUpdatePassword).toHaveBeenCalledTimes(1)
         expect(mockUpdatePassword).toHaveBeenNthCalledWith(1, "1234", "NewSuperSecret")
+    })
+
+    test("render loading message when recover password is loading and update password is not loading", () => {
+        const component = (
+            <BrowserRouter>
+                <RecoverPassword {...defaultProps} isRecoverPasswordLoading={true}/>
+            </BrowserRouter>
+        )
+        render(component)
+
+        const loading = screen.getByText("Cargando...")
+        const goBackAnchor = screen.queryByText("Volver atrás")
+        const usernameLabel = screen.queryByText("Nombre de usuario")
+        const recoverPasswordButton = screen.queryByText("Aceptar")
+        const newPasswordLabel = screen.queryByText("Nueva contraseña")
+        const updatePasswordButton = screen.queryByText("Cambiar contraseña")
+
+        expect(loading).toBeDefined()
+        expect(goBackAnchor).toBeNull()
+        expect(usernameLabel).toBeNull()
+        expect(recoverPasswordButton).toBeNull()
+        expect(newPasswordLabel).toBeNull()
+        expect(updatePasswordButton).toBeNull()
+    })
+
+    test("render loading message when update password is loading and recover password is not loading", () => {
+        const component = (
+            <BrowserRouter>
+                <RecoverPassword {...defaultProps} isUpdatePasswordLoading={true}/>
+            </BrowserRouter>
+        )
+        render(component)
+
+        const loading = screen.getByText("Cargando...")
+        const goBackAnchor = screen.queryByText("Volver atrás")
+        const usernameLabel = screen.queryByText("Nombre de usuario")
+        const recoverPasswordButton = screen.queryByText("Aceptar")
+        const newPasswordLabel = screen.queryByText("Nueva contraseña")
+        const updatePasswordButton = screen.queryByText("Cambiar contraseña")
+
+        expect(loading).toBeDefined()
+        expect(goBackAnchor).toBeNull()
+        expect(usernameLabel).toBeNull()
+        expect(recoverPasswordButton).toBeNull()
+        expect(newPasswordLabel).toBeNull()
+        expect(updatePasswordButton).toBeNull()
     })
 })

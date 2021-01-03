@@ -4,7 +4,7 @@ import {BrowserRouter} from "react-router-dom";
 
 const mockLogin = jest.fn()
 
-const defaultProps = {login: mockLogin}
+const defaultProps = {isLoginLoading: false, login: mockLogin}
 
 const component = (
     <BrowserRouter>
@@ -13,7 +13,7 @@ const component = (
 )
 
 describe('login tests', () => {
-    test("render username and password labels", () => {
+    test("render username and password labels when login is not loading", () => {
         render(component)
 
         const usernameLabel = screen.getByText("Nombre de usuario")
@@ -23,7 +23,7 @@ describe('login tests', () => {
         expect(passwordLabel).toBeDefined()
     })
 
-    test("render submit button", () => {
+    test("render submit button when is not login loading", () => {
         render(component)
 
         const submitButton = screen.getByText("Aceptar")
@@ -43,5 +43,32 @@ describe('login tests', () => {
 
         expect(mockLogin).toHaveBeenCalledTimes(1)
         expect(mockLogin).toHaveBeenNthCalledWith(1, "Ariel", "SuperSecret")
+    })
+
+    test("render loading message when login is loading", () => {
+        const component = (
+            <BrowserRouter>
+                <Login {...defaultProps} isLoginLoading={true}/>
+            </BrowserRouter>
+        )
+        render(component)
+
+        const loading = screen.getByText("Cargando...")
+        const usernameLabel = screen.queryByText("Nombre de usuario")
+        const passwordLabel = screen.queryByText("Contraseña")
+        const submitButton = screen.queryByText("Aceptar")
+
+        expect(loading).toBeDefined()
+        expect(usernameLabel).toBeNull()
+        expect(passwordLabel).toBeNull()
+        expect(submitButton).toBeNull()
+    })
+
+    test("render recover password anchor when login is not loading", () => {
+        render(component)
+
+        const recoverPasswordAnchor = screen.getByText("Recuperar contraseña")
+
+        expect(recoverPasswordAnchor).toBeDefined()
     })
 })

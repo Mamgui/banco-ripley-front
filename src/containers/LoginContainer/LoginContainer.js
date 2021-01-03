@@ -1,8 +1,10 @@
 import {connect} from 'react-redux'
 import Login from "../../components/Login/Login";
-import {loginThunk} from "../../modules/authentication/authentication";
+import {isLoginLoading, loginThunk} from "../../modules/authentication/authentication";
 
-const mapStateToProps = () => ({})
+const mapStateToProps = state => ({
+    isLoginLoading: isLoginLoading(state),
+})
 
 const mapDispatchToProps = dispatch => ({
     login: (username, password) => {

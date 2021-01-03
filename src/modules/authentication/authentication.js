@@ -131,7 +131,9 @@ const reducer = (state = initialState, action = {}) => {
 
 const isLoginLoading = state => state.authentication.isLoginLoading
 const isLoggedIn = state => state.authentication.isLoggedIn
+const isRecoverPasswordLoading = state => state.authentication.isRecoverPasswordLoading
 const getToken = state => state.authentication.token
+const isUpdatePasswordLoading = state => state.authentication.isUpdatePasswordLoading
 const isPasswordUpdated = state => state.authentication.isPasswordUpdated
 
 export {
@@ -143,6 +145,8 @@ export {
     reducer,
     isLoginLoading,
     isLoggedIn,
+    isRecoverPasswordLoading,
     getToken,
+    isUpdatePasswordLoading,
     isPasswordUpdated
 }

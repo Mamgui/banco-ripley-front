@@ -1,13 +1,15 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
+import './Login.scss'
 import {Link} from "react-router-dom";
 
 const userNameLabel = 'Nombre de usuario'
 const passwordLabel = 'Contraseña'
 const acceptButton = 'Aceptar'
 const recoverPasswordAnchor = 'Recuperar contraseña'
+const loadingMessage = "Cargando..."
 
-function Login({login}) {
+function Login({isLoginLoading, login}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -22,8 +24,8 @@ function Login({login}) {
         login(username, password)
     }
 
-    return (
-        <div className="login-container">
+    const renderForm = (
+        <>
             <form>
                 <label>{userNameLabel}
                     <input type="text" name="username" value={username}
@@ -36,11 +38,20 @@ function Login({login}) {
                 <input type="submit" value={acceptButton} onClick={handleSubmit}/>
             </form>
             <Link to="/recover-password">{recoverPasswordAnchor}</Link>
+        </>
+    )
+
+    const renderLoading = <p>{loadingMessage}</p>
+
+    return (
+        <div className="login-container">
+            {isLoginLoading ? renderLoading : renderForm}
         </div>
     );
 }
 
 Login.propTypes = {
+    isLoginLoading: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
 };
 

@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
 import * as PropTypes from "prop-types";
+import './RecoverPassword.scss'
+import {Link} from "react-router-dom";
 
 const userNameLabel = 'Nombre de usuario'
 const newPasswordLabel = 'Nueva contraseña'
@@ -8,8 +9,17 @@ const acceptButton = 'Aceptar'
 const updatePasswordButton = 'Cambiar contraseña'
 const goBackAnchor = 'Volver atrás'
 const passwordUpdatedMessage = 'Felicitaciones! has actualizado tu contraseña'
+const loadingMessage = "Cargando..."
 
-function RecoverPassword({token, isPasswordUpdated, recoverPassword, updatePassword, restart}) {
+function RecoverPassword({
+                             isRecoverPasswordLoading,
+                             token,
+                             isUpdatePasswordLoading,
+                             isPasswordUpdated,
+                             recoverPassword,
+                             updatePassword,
+                             restart
+                         }) {
     const [username, setUsername] = useState("")
     const [newPassword, setNewPassword] = useState("")
 
@@ -28,6 +38,8 @@ function RecoverPassword({token, isPasswordUpdated, recoverPassword, updatePassw
         event.preventDefault()
         updatePassword(token, newPassword)
     }
+
+    const renderPasswordUpdated = <p>{passwordUpdatedMessage}</p>
 
     const renderRecoverPassword = (
         <form>
@@ -49,20 +61,30 @@ function RecoverPassword({token, isPasswordUpdated, recoverPassword, updatePassw
         </form>
     )
 
-    const renderPasswordUpdated = <div>{passwordUpdatedMessage}</div>
-
-    return (
-        <div>
+    const renderForms = (
+        <>
             <Link to="/" onClick={restart}>{goBackAnchor}</Link>
             {token ? renderUpdatePassword : isPasswordUpdated ? renderPasswordUpdated : renderRecoverPassword}
+        </>
+    )
+
+    const renderLoading = <p>{loadingMessage}</p>
+
+    return (
+        <div className="recover-password-container">
+            {(isRecoverPasswordLoading || isUpdatePasswordLoading) ? renderLoading : renderForms}
         </div>
     );
 }
 
 RecoverPassword.propTypes = {
+    isRecoverPasswordLoading: PropTypes.bool.isRequired,
     token: PropTypes.string,
+    isUpdatePasswordLoading: PropTypes.bool.isRequired,
+    isPasswordUpdated: PropTypes.bool.isRequired,
     recoverPassword: PropTypes.func.isRequired,
-    updatePassword: PropTypes.func.isRequired
+    updatePassword: PropTypes.func.isRequired,
+    restart: PropTypes.func.isRequired,
 };
 
 export default RecoverPassword;

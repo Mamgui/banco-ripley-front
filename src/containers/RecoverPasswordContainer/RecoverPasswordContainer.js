@@ -3,14 +3,18 @@ import RecoverPassword from "../../components/RecoverPassword/RecoverPassword";
 import {
     getToken,
     isPasswordUpdated,
+    isRecoverPasswordLoading,
+    isUpdatePasswordLoading,
     recoverPasswordThunk,
     restartThunk,
     updatePasswordThunk
 } from "../../modules/authentication/authentication";
 
 const mapStateToProps = state => ({
+        isRecoverPasswordLoading: isRecoverPasswordLoading(state),
         token: getToken(state),
-        isPasswordUpdated: isPasswordUpdated(state)
+        isUpdatePasswordLoading: isUpdatePasswordLoading(state),
+        isPasswordUpdated: isPasswordUpdated(state),
     }
 )
 

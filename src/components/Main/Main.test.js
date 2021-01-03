@@ -8,20 +8,12 @@ jest.mock('../../containers/LogoutContainer/LogoutContainer', () => () => (
     <div>LogoutContainer</div>
 ))
 
-const defaultProps = {isLoginLoading: false, isLoggedIn: false}
+const defaultProps = {isLoggedIn: false}
 
 const component = <Main {...defaultProps}/>
 
 describe('main tests', () => {
-    test("render welcome title", () => {
-        render(component)
-
-        const welcomeTitle = screen.getByText("Hola!")
-
-        expect(welcomeTitle).toBeDefined()
-    })
-
-    test("render login when user is not logged in and is not login loading", () => {
+    test("render login when user is not logged in", () => {
         render(component)
 
         const login = screen.getByText("LoginContainer")
@@ -29,25 +21,12 @@ describe('main tests', () => {
         expect(login).toBeDefined()
     })
 
-    test("render logout when user is logged in and is not login loading", () => {
+    test("render logout when user is logged in", () => {
         const component = <Main {...defaultProps} isLoggedIn={true}/>
         render(component)
 
         const logout = screen.getByText("LogoutContainer")
 
         expect(logout).toBeDefined()
-    })
-
-    test("render loading message when is login loading", () => {
-        const component = <Main {...defaultProps} isLoginLoading={true}/>
-        render(component)
-
-        const loading = screen.getByText("Cargando...")
-        const login = screen.queryByText("LoginContainer")
-        const logout = screen.queryByText("LogoutContainer")
-
-        expect(loading).toBeDefined()
-        expect(login).toBeNull()
-        expect(logout).toBeNull()
     })
 })
