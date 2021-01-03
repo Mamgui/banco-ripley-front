@@ -39,8 +39,6 @@ function RecoverPassword({
         updatePassword(token, newPassword)
     }
 
-    const renderPasswordUpdated = <p>{passwordUpdatedMessage}</p>
-
     const renderRecoverPassword = (
         <form>
             <label>{userNameLabel}
@@ -50,6 +48,8 @@ function RecoverPassword({
             <input type="submit" value={acceptButton} onClick={handleRecoverSubmit}/>
         </form>
     )
+
+    const renderPasswordUpdated = <p>{passwordUpdatedMessage}</p>
 
     const renderUpdatePassword = (
         <form>
@@ -61,7 +61,7 @@ function RecoverPassword({
         </form>
     )
 
-    const renderForms = (
+    const renderContent = (
         <>
             <Link to="/" onClick={restart}>{goBackAnchor}</Link>
             {token ? renderUpdatePassword : isPasswordUpdated ? renderPasswordUpdated : renderRecoverPassword}
@@ -72,7 +72,7 @@ function RecoverPassword({
 
     return (
         <div className="recover-password-container">
-            {(isRecoverPasswordLoading || isUpdatePasswordLoading) ? renderLoading : renderForms}
+            {(isRecoverPasswordLoading || isUpdatePasswordLoading) ? renderLoading : renderContent}
         </div>
     );
 }

@@ -5,8 +5,9 @@ import {Link} from "react-router-dom";
 
 const userNameLabel = 'Nombre de usuario'
 const passwordLabel = 'Contraseña'
-const acceptButton = 'Aceptar'
+const loginButton = 'Iniciar sesión'
 const recoverPasswordAnchor = 'Recuperar contraseña'
+const registerAnchor = 'Crear cuenta'
 const loadingMessage = "Cargando..."
 
 function Login({isLoginLoading, login}) {
@@ -35,9 +36,10 @@ function Login({isLoginLoading, login}) {
                     <input type="password" name="password" value={password}
                            onChange={(event) => handleOnChange(event, setPassword)}/>
                 </label>
-                <input type="submit" value={acceptButton} onClick={handleSubmit}/>
+                <input type="submit" value={loginButton} onClick={handleSubmit}/>
             </form>
             <Link to="/recover-password">{recoverPasswordAnchor}</Link>
+            <Link to="/register">{registerAnchor}</Link>
         </>
     )
 

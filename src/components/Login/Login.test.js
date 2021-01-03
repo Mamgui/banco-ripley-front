@@ -23,10 +23,10 @@ describe('login tests', () => {
         expect(passwordLabel).toBeDefined()
     })
 
-    test("render submit button when is not login loading", () => {
+    test("render submit button when login is not loading", () => {
         render(component)
 
-        const submitButton = screen.getByText("Aceptar")
+        const submitButton = screen.getByText("Iniciar sesión")
 
         expect(submitButton).toBeDefined()
     })
@@ -36,7 +36,7 @@ describe('login tests', () => {
 
         const usernameInput = screen.getByLabelText("Nombre de usuario")
         const passwordInput = screen.getByLabelText("Contraseña")
-        const submitButton = screen.getByText("Aceptar")
+        const submitButton = screen.getByText("Iniciar sesión")
         fireEvent.change(usernameInput, {target: {value: 'Ariel'}})
         fireEvent.change(passwordInput, {target: {value: 'SuperSecret'}})
         fireEvent.click(submitButton)
@@ -56,7 +56,7 @@ describe('login tests', () => {
         const loading = screen.getByText("Cargando...")
         const usernameLabel = screen.queryByText("Nombre de usuario")
         const passwordLabel = screen.queryByText("Contraseña")
-        const submitButton = screen.queryByText("Aceptar")
+        const submitButton = screen.queryByText("Iniciar sesión")
 
         expect(loading).toBeDefined()
         expect(usernameLabel).toBeNull()
@@ -64,11 +64,13 @@ describe('login tests', () => {
         expect(submitButton).toBeNull()
     })
 
-    test("render recover password anchor when login is not loading", () => {
+    test("render recover password and register anchors when login is not loading", () => {
         render(component)
 
         const recoverPasswordAnchor = screen.getByText("Recuperar contraseña")
+        const registerAnchor = screen.getByText("Crear cuenta")
 
         expect(recoverPasswordAnchor).toBeDefined()
+        expect(registerAnchor).toBeDefined()
     })
 })

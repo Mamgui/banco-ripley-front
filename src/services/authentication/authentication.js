@@ -3,6 +3,7 @@ import {axiosInstance} from "../axiosBase";
 const loginUri = '/login'
 const recoverPasswordUri = '/recover-password'
 const updatePasswordUri = '/update-password'
+const registerUri = '/register'
 
 const handlesSuccessful = response => response.data
 
@@ -29,4 +30,11 @@ const updatePassword = (token, newPassword) => {
         .catch(handlesError)
 }
 
-export {login, recoverPassword, updatePassword}
+const register = (username, password) => {
+    return axiosInstance
+        .post(registerUri, {username, password})
+        .then(handlesSuccessful)
+        .catch(handlesError)
+}
+
+export {login, recoverPassword, updatePassword, register}

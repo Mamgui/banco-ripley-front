@@ -1,4 +1,4 @@
-import {login, recoverPassword, updatePassword} from "../../services/authentication/authentication";
+import {login, recoverPassword, updatePassword, register} from "../../services/authentication/authentication";
 
 const actions = {
     loginStart: 'authentication/login/start',
@@ -10,6 +10,9 @@ const actions = {
     updatePasswordStart: 'authentication/updatePassword/start',
     updatePasswordFinish: 'authentication/updatePassword/finish',
     updatePasswordError: 'authentication/updatePassword/error',
+    registerStart: 'authentication/register/start',
+    registerFinish: 'authentication/register/finish',
+    registerError: 'authentication/register/error',
     restart: 'authentication/restart',
 }
 
@@ -65,6 +68,22 @@ const updatePasswordThunk = (dispatch, token, newPassword) => {
         .catch(handlesError)
 }
 
+const registerThunk = (dispatch, username, password) => {
+    dispatch({type: actions.registerStart})
+
+    function handleSuccessfully() {
+        dispatch({type: actions.registerFinish})
+    }
+
+    function handlesError() {
+        dispatch({type: actions.registerError})
+    }
+
+    return register(username, password)
+        .then(handleSuccessfully)
+        .catch(handlesError)
+}
+
 const restartThunk = dispatch => {
     dispatch({type: actions.restart})
 }
@@ -76,6 +95,8 @@ const initialState = {
     token: null,
     isUpdatePasswordLoading: false,
     isPasswordUpdated: false,
+    isRegisterLoading: false,
+    isRegistered: false,
 }
 
 const reducer = (state = initialState, action = {}) => {
@@ -84,12 +105,10 @@ const reducer = (state = initialState, action = {}) => {
             return {
                 ...initialState,
                 isLoginLoading: true,
-                isLoggedIn: false,
             }
         case actions.loginFinish: {
             return {
                 ...initialState,
-                isLoginLoading: false,
                 isLoggedIn: true,
             }
         }
@@ -103,25 +122,34 @@ const reducer = (state = initialState, action = {}) => {
             return {
                 ...initialState,
                 token: action.token,
-                isRecoverPasswordLoading: false
             }
         }
         case actions.updatePasswordStart:
             return {
                 ...initialState,
                 isUpdatePasswordLoading: true,
-                isPasswordUpdated: false
             }
         case actions.updatePasswordFinish: {
             return {
                 ...initialState,
-                isUpdatePasswordLoading: false,
                 isPasswordUpdated: true,
+            }
+        }
+        case actions.registerStart:
+            return {
+                ...initialState,
+                isRegisterLoading: true,
+            }
+        case actions.registerFinish: {
+            return {
+                ...initialState,
+                isRegistered: true,
             }
         }
         case actions.loginError:
         case actions.recoverPasswordError:
         case actions.updatePasswordError:
+        case actions.registerError:
         case actions.restart:
             return initialState
         default:
@@ -135,12 +163,15 @@ const isRecoverPasswordLoading = state => state.authentication.isRecoverPassword
 const getToken = state => state.authentication.token
 const isUpdatePasswordLoading = state => state.authentication.isUpdatePasswordLoading
 const isPasswordUpdated = state => state.authentication.isPasswordUpdated
+const isRegisterLoading = state => state.authentication.isRegisterLoading
+const isRegistered = state => state.authentication.isRegistered
 
 export {
     loginThunk,
     logoutThunk,
     recoverPasswordThunk,
     updatePasswordThunk,
+    registerThunk,
     restartThunk,
     reducer,
     isLoginLoading,
@@ -148,5 +179,7 @@ export {
     isRecoverPasswordLoading,
     getToken,
     isUpdatePasswordLoading,
-    isPasswordUpdated
+    isPasswordUpdated,
+    isRegisterLoading,
+    isRegistered
 }

@@ -4,6 +4,7 @@ import {Provider} from "react-redux"
 import MainContainer from "./containers/MainContainer/MainContainer"
 import RecoverPasswordContainer from './containers/RecoverPasswordContainer/RecoverPasswordContainer'
 import store from "./store";
+import RegisterContainer from "./containers/RegisterContainer/RegisterContainer";
 
 function App() {
     return (
@@ -15,6 +16,9 @@ function App() {
                     </Route>
                     <Route exact path="/recover-password">
                         <RecoverPasswordContainer/>
+                    </Route>
+                    <Route exact path="/register">
+                        <RegisterContainer/>
                     </Route>
                     <Route path="*">
                         <Redirect to="/"/>

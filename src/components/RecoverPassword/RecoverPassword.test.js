@@ -147,4 +147,27 @@ describe('recover password tests', () => {
         expect(newPasswordLabel).toBeNull()
         expect(updatePasswordButton).toBeNull()
     })
+
+    test("render password updated message when password is updated, token is null, recover password and update password are not loading", () => {
+        const component = (
+            <BrowserRouter>
+                <RecoverPassword {...defaultProps} isPasswordUpdated={true}/>
+            </BrowserRouter>
+        )
+        render(component)
+
+        const passwordUpdated = screen.getByText('Felicitaciones! has actualizado tu contraseña')
+        const loading = screen.queryByText("Cargando...")
+        const usernameLabel = screen.queryByText("Nombre de usuario")
+        const recoverPasswordButton = screen.queryByText("Aceptar")
+        const newPasswordLabel = screen.queryByText("Nueva contraseña")
+        const updatePasswordButton = screen.queryByText("Cambiar contraseña")
+
+        expect(passwordUpdated).toBeDefined()
+        expect(loading).toBeNull()
+        expect(usernameLabel).toBeNull()
+        expect(recoverPasswordButton).toBeNull()
+        expect(newPasswordLabel).toBeNull()
+        expect(updatePasswordButton).toBeNull()
+    })
 })
