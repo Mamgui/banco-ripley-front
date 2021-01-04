@@ -38,4 +38,10 @@ Needs to have Node.js installed
 * The first time need to install dependencies: `npm install`
 * To run the project: `npm start`
 * To run the tests: `npm test`
+  * Go to: `http://localhost:3000`
 * To build the project: `npm run build`
+
+### Docker
+* To build the image: `docker build -t ripley-front .`
+* To run the image: `docker run -p 80:80 -t ripley-front`
+* Go to: `http://localhost`
