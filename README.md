@@ -58,3 +58,4 @@ Needs to have Node.js installed
 * [Redux](https://redux.js.org/)
 * [React Router](https://reactrouter.com/)
 * [Sass](https://sass-lang.com/)
+* [Docker](https://www.docker.com/)
