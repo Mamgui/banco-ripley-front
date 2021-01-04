@@ -1,20 +1,22 @@
 # Project: banco-ripley-front
+
 Challenge to apply as a Senior Full Stack in Banco Ripley
 
-Problem to solve: 
+Problem to solve:
+
 ```
 Desarrollar una nueva HU:
 La HU nos habla de desarrollar una aplicación en que permita autenticar a clientes de un banco, y
 recuperar la password de clientes que la hayan olvidado., para esto se debe generar:
 * Los Microservicios API Rest necesarios para autenticar un cliente y recuperar la password
 de cliente.
-* El Desarrollo de Microservicios usar java Sprint boot
-* En el Front End, desarrollar una aplicación web que permita las dos funcionalidades
+* ✅ El Desarrollo de Microservicios usar java Sprint boot
+* ✅ En el Front End, desarrollar una aplicación web que permita las dos funcionalidades
 mencionadas. trabajar con Framework React.js
-* Usar como base datos la base datos de gusto (relacional o no relacional).
-* Armar una arquitectura AWS que soporte la solución y señalar las buenas practicas
+* ✅ Usar como base datos la base datos de gusto (relacional o no relacional).
+* ❌ Armar una arquitectura AWS que soporte la solución y señalar las buenas practicas
 conocidas de desarrollo y despliegue continuos.
-* Entorno de desarrollo
+* ✅ Entorno de desarrollo
     Entorno Java (Spring boot)
         # mvn -v
         Apache Maven 3.0.5 (Red Hat 3.0.5-17)
@@ -34,14 +36,25 @@ conocidas de desarrollo y despliegue continuos.
 # Commands
 
 ### Locally
+
 Needs to have Node.js installed
+
 * The first time need to install dependencies: `npm install`
 * To run the project: `npm start`
 * To run the tests: `npm test`
-  * Go to: `http://localhost:3000`
+    * Go to: `http://localhost:3000`
 * To build the project: `npm run build`
 
 ### Docker
+
 * To build the image: `docker build -t ripley-front .`
 * To run the image: `docker run -p 80:80 -t ripley-front`
 * Go to: `http://localhost`
+
+# Tools used in this project:
+
+* [Testing Library](https://testing-library.com/)
+* [Axios](https://github.com/axios/axios)
+* [Redux](https://redux.js.org/)
+* [React Router](https://reactrouter.com/)
+* [Sass](https://sass-lang.com/)
